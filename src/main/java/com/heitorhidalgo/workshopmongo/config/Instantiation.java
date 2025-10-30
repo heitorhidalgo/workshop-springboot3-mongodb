@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.heitorhidalgo.workshopmongo.domain.Post;
 import com.heitorhidalgo.workshopmongo.domain.User;
+import com.heitorhidalgo.workshopmongo.dto.AuthorDTO;
 import com.heitorhidalgo.workshopmongo.repository.PostRepository;
 import com.heitorhidalgo.workshopmongo.repository.UserRepository;
 
@@ -29,15 +30,17 @@ public class Instantiation implements CommandLineRunner {
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		
 		userReposiroty.deleteAll();
+		postReposiroty.deleteAll();
 		
 		User tenma = new User(null, "Kenzo Tenma", "tenma@gmail.com");
 		User johan = new User(null, "Johan Liebert", "johan@gmail.com");
 		User anna = new User(null, "Anna Liebert", "anna@gmail.com");
 		
-		Post post1 = new Post(null, sdf.parse("30/10/2025"), "Em busca do Johan", "Estou procurando o Johan por toda a Alemanha.", tenma);
-		Post post2 = new Post(null, sdf.parse("30/10/2025"), "Nao me recordo do passado", "Nao me lembro da minha infancia e do meu irmao Johan.", anna);
-
 		userReposiroty.saveAll(Arrays.asList(tenma, johan, anna));
+		
+		Post post1 = new Post(null, sdf.parse("30/10/2025"), "Em busca do Johan", "Estou procurando o Johan por toda a Alemanha.", new AuthorDTO(tenma));
+		Post post2 = new Post(null, sdf.parse("30/10/2025"), "Nao me recordo do passado", "Nao me lembro da minha infancia e do meu irmao Johan.", new AuthorDTO(anna));
+
 		postReposiroty.saveAll(Arrays.asList(post1, post2));
 	}
 
